@@ -1,3 +1,9 @@
+/* 
+ * ご指摘ありがとうございます。
+ * 指摘いただいた点を修正いたしましたので、再アップロードいたします。
+ * 
+ */
+
 package pgcon2;
 
 import java.util.Scanner;
@@ -9,15 +15,11 @@ public class Q1 {
 		scanner.useDelimiter(System.getProperty("line.separator"));
 
 		String txt = scanner.next();
-		String[] list = new String[txt.length()];
-
-		for(int i=0;i<txt.length();i++){
-			list[i]=String.valueOf(txt.charAt(i));
-		}
+		scanner.close();
+		
 		for(int i=txt.length()-1;i>=0;i--){
-			System.out.print(list[i]);
+			System.out.print(String.valueOf(txt.charAt(i)));
 		}
 		System.out.println("");
-		scanner.close();
 	}
 }
