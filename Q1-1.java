@@ -1,7 +1,7 @@
-/* 
+/*
  * ご指摘ありがとうございます。
  * 指摘いただいた点を修正いたしましたので、再アップロードいたします。
- * 
+ *
  */
 
 package pgcon;
@@ -24,10 +24,8 @@ public class Q1a {
 		String line = br.readLine();
 		int volume = Integer.parseInt(line);
 
-		StringTokenizer token = new StringTokenizer(line, " ");
-
 		if((line = br.readLine()) != null) {
-			token = new StringTokenizer(line, " ");
+			StringTokenizer token = new StringTokenizer(line, " ");
 			while (token.hasMoreTokens()) {
 				int h = Integer.parseInt(token.nextToken());
 				if (havelist.size()==0 && h == 0) {
@@ -40,7 +38,7 @@ public class Q1a {
 		}
 
 		if((line = br.readLine()) != null) {
-			token = new StringTokenizer(line, " ");
+			StringTokenizer token = new StringTokenizer(line, " ");
 			while (token.hasMoreTokens()) {
 				int s = Integer.parseInt(token.nextToken());
 				if (salelist.size()==0 && s == 0) {
@@ -53,8 +51,9 @@ public class Q1a {
 		}
 
 		for(int i=0;i<salelist.size();i++){
-			if(!havelist.contains(salelist.get(i))){
-				buylist.add(salelist.get(i));
+			int num = salelist.get(i);
+			if(!havelist.contains(num)){
+				buylist.add(num);
 			}
 		}
 		Collections.sort(buylist);

@@ -18,7 +18,7 @@ public class Q1 {
 		scanner.close();
 		
 		for(int i=txt.length()-1;i>=0;i--){
-			System.out.print(String.valueOf(txt.charAt(i)));
+			System.out.print(txt.charAt(i));
 		}
 		System.out.println("");
 	}
