@@ -7,35 +7,30 @@ public class Q3 {
 	public static void main(String[] args) {
 		Scanner scanner = new Scanner(System.in);
 		String s = scanner.next();
-		String[] list = new String[s.length()];
+		scanner.close();
 		int rCount=0;
 		int gCount=0;
 		int bCount=0;
 		for(int i=0;i<s.length();i++){
-			list[i]=String.valueOf(s.charAt(i));
-			if(list[i].equals("R")){
+			char c = s.charAt(i);
+			if(c=='R'){
 				rCount++;
-			}else if(list[i].equals("G")){
+			}else if(c=='G'){
 				gCount++;
-			}else if(list[i].equals("B")){
+			}else if(c=='B'){
 				bCount++;
 			}
 		}
-		int r=0;
+		int count=0;
 		if(rCount%2!=0){
-			r = rCount%2;
+			count++;
 		}
-		int g=0;
 		if(gCount%2!=0){
-			g = gCount%2;
+			count++;
 		}
-		int b=0;
 		if(bCount%2!=0){
-			b = bCount%2;
+			count++;
 		}
-		int sum = r+g+b;
-		System.out.print(sum);
-		scanner.close();
+		System.out.print(count);
 	}
-
 }
