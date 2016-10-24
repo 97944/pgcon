@@ -2,218 +2,119 @@ package pgcon;
 
 import java.util.Scanner;
 
-public class Q2 {
+public class Q2a {
+	static String[] check = {"o","x"};
+	public static final int MARU = 0;
+	public static final int BATSU = 1;
 
 	public static void main(String[] args) {
-		String dummy1;
-		String dummy2;
-		String dummy3;
-		String str[] = new String[9];
 		Scanner scanner = new Scanner(System.in);
-		dummy1=scanner.next();
-		dummy2=scanner.next();
-		dummy3=scanner.next();
+		String[] dummy = new String[3];
+		String str = null;
 		for(int i=0;i<3;i++){
-			str[i]=dummy1.substring(i,i+1);
+			dummy[i] = scanner.next();
+			str += dummy[i];
 		}
-		for(int i=0;i<3;i++){
-			str[i+3]=dummy2.substring(i,i+1);
-		}
-		for(int i=0;i<3;i++){
-			str[i+6]=dummy3.substring(i,i+1);
+		scanner.close();
+		str = str.substring(4, 13);
+		char[] cstr = str.toCharArray();
+		String[] board = new String[9];
+		int countnull = 0,countmaru = 0,countbatsu = 0;
+		for(int i=0;i<9;i++){
+			board[i] = String.valueOf(cstr[i]);
+			if(cstr[i] == '-'){
+				countnull++;
+			}else if(cstr[i] == 'o'){
+				countmaru++;
+			}else{
+				countbatsu++;
+			}
+			System.out.println(cstr[i] + " ");
 		}
 
+		int result = checkWin(board);
 
-		/*for(int i=0;i<3;i++){
-			System.out.print(" ");
-			for(int j=0;j<3;j++){
-				if(str[i*3+j].equals("-")){
-					if(j<2){
-						System.out.print(" ｜" );
-					}else{
-						System.out.println("  ");
-					}
-				}else if(j<2){
-					System.out.print(str[i*3+j] + "｜" );
-				}else{
-					System.out.println(str[i*3+j]);
-				}
-			}
-			if(i<2){
-				System.out.println("―+―+―");
-			}
-		}*/
-		int counto=0;
-		int countx=0;
-		int countnull=0;
-		for(int i=0;i<3;i++){
-			for(int j=0;j<3;j++){
-				if(str[i*3+j].equals("o")){
-					counto++;
-				}else if(str[i*3+j].equals("x")){
-					countx++;
-				}else if(str[i*3+j].equals("-")){
-					countnull++;
-				}
-			}
-		}
-
-		int check;
-		check =Check(str);
-		int reach;
-		reach=checkReach(str);
-		if(check==0){
+		if(result == MARU){
 			System.out.println("WIN");
 			return;
-		}
-		else if(check==1){
+		}else if( result == BATSU){
 			System.out.println("LOSE");
 			return;
 		}
-		else if(countnull==0 && check==-1){
+		if(countnull==0){
 			System.out.println("FIN");
-			return;
-		}
-		else if(counto==countx+1 && check==-1){
+		}else if(countmaru != countbatsu){
 			System.out.println("NG");
-			return;
-		}
-		else if(reach==0){
-			System.out.println("OK");
-		}
-		else{
-			System.out.println("NO");
-		}
-
-	}
-	static int Check(String winner[]){
-		String[] check = new String[2];
-		check[0]="o";
-		check[1]="x";
-		for(int i=0;i<2;i++){
-			if(winner[4].equals(check[i])){
-				if(winner[0].equals(check[i])){
-					if(winner[8].equals(check[i])){
-						return i;
-					}
-				}
-				if(winner[2].equals(check[i])){
-					if(winner[6].equals(check[i])){
-						return i;
-					}
-				}
+		}else{
+			result = checkReach(board);
+			if(result == MARU){
+				System.out.println("OK");
+			}else{
+				System.out.println("NO");
 			}
-			for(int j=0;j<3;j++){
-				if(winner[j*3].equals(check[i])){
-					if(winner[j*3+1].equals(check[i])){
-						if(winner[j*3+2].equals(check[i])){
-							return i;
-						}
+		}
+	}
+	/*
+	 * リーチ判定
+	 * "-"の場所に"o"を入れて勝者ならば、0を返す。それ以外は-1を返す。
+	 */
+	private static int checkReach(String board[]){
+
+		int[] result = new int[8];
+
+		for(int j=0;j<9;j++){
+			if(board[j].equals("-")){
+				board[j] = check[0];
+				for(int i=0;i<3;i++){
+					result[i] = checkThree(board,i,i+3,i+6);
+					result[i+3] = checkThree(board,i*3,i*3+1,i*3+2);
+				}
+				result[6] = checkThree(board,4,0,8);
+				result[7] = checkThree(board,4,2,6);
+				for(int k=0;k<8;k++){
+					if(result[k] >= 0){
+						return result[k];
 					}
 				}
-				if(winner[j].equals(check[i])){
-					if(winner[j+3].equals(check[i])){
-						if(winner[j+6].equals(check[i])){
-							return i;
-						}
+				board[j] = "-";
+			}
+		}
+		return -1;
+	}
+	/*
+	 * 勝者判定
+	 * 斜め、縦、横を見て"o"が勝者なら0,"x"が勝者なら1,それ以外は-1を返す。
+	 */
+	private static int checkWin(String board[]){
+		int[] result = new int[8];
+
+		for(int i=0;i<3;i++){
+			result[i] = checkThree(board,i,i+3,i+6);
+			result[i+3] = checkThree(board,i*3,i*3+1,i*3+2);
+		}
+		result[6] = checkThree(board,4,0,8);
+		result[7] = checkThree(board,4,2,6);
+		for(int i=0;i<8;i++){
+			if(result[i] >= 0){
+				return result[i];
+			}
+		}
+		return -1;
+	}
+	/*
+	 * 引数の値によって勝者判定
+	 * "o"が勝者なら0,"x"が勝者なら1,それ以外は-1を返す。
+	 */
+	private static int checkThree(String winner[], int idx1, int idx2, int idx3){
+		for(int i=0;i<2;i++){
+			if(winner[idx1].equals(check[i])){
+				if(winner[idx2].equals(check[i])){
+					if(winner[idx3].equals(check[i])){
+						return i;
 					}
 				}
 			}
 		}
 		return -1;
 	}
-	static int checkReach(String winner[]){
-		String[] check = new String[2];
-		check[0]="o";
-		check[1]="x";
-		int count=0;
-		int nullcount=0;
-		for(int i=0;i<2;i++){
-			if(winner[4].equals(check[i])){
-				count++;
-			}else if(winner[4].equals("-")){
-				nullcount++;
-			}
-			if(winner[0].equals(check[i])){
-				count++;
-			}else if(winner[0].equals("-")){
-				nullcount++;
-			}
-			if(winner[8].equals(check[i])){
-				count++;
-			}else if(winner[8].equals("-")){
-				nullcount++;
-			}
-			if(count==2 && nullcount==1){
-				return i;
-			}
-			count=0;
-			nullcount=0;
-			if(winner[4].equals(check[i])){
-				count++;
-			}else if(winner[4].equals("-")){
-				nullcount++;
-			}
-			if(winner[2].equals(check[i])){
-				count++;
-			}else if(winner[2].equals("-")){
-				nullcount++;
-			}
-			if(winner[6].equals(check[i])){
-				count++;
-			}else if(winner[6].equals("-")){
-				nullcount++;
-			}
-			if(count==2 && nullcount==1){
-				return i;
-			}
-			count=0;
-			nullcount=0;
-			for(int j=0;j<3;j++){
-				if(winner[j*3].equals(check[i])){
-					count++;
-				}else if(winner[j*3].equals("-")){
-					nullcount++;
-				}
-				if(winner[j*3+1].equals(check[i])){
-					count++;
-				}else if(winner[j*3+1].equals("-")){
-					nullcount++;
-				}
-				if(winner[j*3+2].equals(check[i])){
-					count++;
-				}else if(winner[j*3+2].equals("-")){
-					nullcount++;
-				}
-				if(count==2 && nullcount==1){
-					return i;
-				}
-				count=0;
-				nullcount=0;
-				if(winner[j].equals(check[i])){
-					count++;
-				}else if(winner[j].equals("-")){
-					nullcount++;
-				}
-				if(winner[j+3].equals(check[i])){
-					count++;
-				}else if(winner[j+3].equals("-")){
-					nullcount++;
-				}
-				if(winner[j+6].equals(check[i])){
-					count++;
-				}else if(winner[j+6].equals("-")){
-					nullcount++;
-				}
-				if(count==2 && nullcount==1){
-					return i;
-
-				}
-				count=0;
-				nullcount=0;
-			}
-		}
-		return -1;
-	}
-
 }
