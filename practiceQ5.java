@@ -1,14 +1,13 @@
-package practice;
+package prconpractice3;
 
 import java.util.Scanner;
 
-public class Q5 {
+public class E {
 
 	public static void main(String[] args) {
 		Scanner scanner = new Scanner(System.in);
-		int n = scanner.nextInt();
-		scanner.close();
-		int result = (int) (2 * Math.pow(n,2) + 2 * n + 1);
+		int n = scanner.nextInt() + 1;
+		int result = 1 + 2 * ((n - 1) * n);
 		System.out.println(result);
 	}
 

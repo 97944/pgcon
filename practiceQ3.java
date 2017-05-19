@@ -1,38 +1,26 @@
-package practice;
+package prconpractice3;
 
 import java.util.Scanner;
 
-public class Q3 {
+public class C {
 
 	public static void main(String[] args) {
 		Scanner scanner = new Scanner(System.in);
-		String str = scanner.next();
-		int num = scanner.nextInt();
-		scanner.close();
-		if(str.length() >= num){
-			System.out.println(str);
+		String s = scanner.next();
+		int n = scanner.nextInt();
+		if(s.length() > n){
+			System.out.println(s);
 		}else{
-			int x = num - str.length();
-
-			if(x % 2 == 0){
-				for(int i=0;i<x/2;i++){
-					System.out.print("_");
-				}
-				System.out.print(str);
-				for(int i=0;i<x/2;i++){
-					System.out.print("_");
-				}
-				System.out.println();
-			}else{
-				for(int i=0;i<x/2;i++){
-					System.out.print("_");
-				}
-				System.out.print(str);
-				for(int i=0;i<x/2+1;i++){
-					System.out.print("_");
-				}
-				System.out.println();
+			int ln = (n - s.length()) / 2;
+			int rn = ln + (n - s.length()) % 2;
+			for(int i=0;i<ln;i++){
+				System.out.print("_");
 			}
+			System.out.print(s);
+			for(int i=0;i<rn;i++){
+				System.out.print("_");
+			}
+			System.out.println();
 		}
 	}
 

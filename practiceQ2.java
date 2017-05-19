@@ -1,21 +1,26 @@
-package practice;
+package prconpractice3;
 
 import java.util.Scanner;
 
-public class Q2a {
+public class B {
 
 	public static void main(String[] args) {
 		Scanner scanner = new Scanner(System.in);
-		scanner.useDelimiter(System.getProperty("line.separator"));
-		String str = scanner.next();
-		scanner.close();
-		for(int i=0;i<str.length();i++){
-			if(i==0 || str.charAt(i-1) == ' '){
-				System.out.print(String.valueOf(str.charAt(i)).toUpperCase());
-			}else{
-				System.out.print(str.charAt(i));
+		String s = scanner.nextLine();
+		String[] str = s.split(" ");
+		for(int i=0;i<str.length;i++){
+			for(int j=0;j<str[i].length();j++){
+				if(j == 0){
+					System.out.print(String.valueOf(str[i].charAt(j)).toUpperCase());
+				}else{
+					System.out.print(str[i].charAt(j));
+				}
+			}
+			if(i < str.length - 1){
+				System.out.print(" ");
 			}
 		}
 		System.out.println();
 	}
+
 }

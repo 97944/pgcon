@@ -1,4 +1,4 @@
-package Q5;
+package prcon3.p5;
 
 import java.util.Scanner;
 
@@ -6,40 +6,41 @@ public class Main {
 
 	public static void main(String[] args) {
 		Scanner scanner = new Scanner(System.in);
-		int piece = scanner.nextInt();
-		int twen = scanner.nextInt();
-		int nine = scanner.nextInt();
-		int six = scanner.nextInt();
-		int four = scanner.nextInt();
-		scanner.close();
-		int min = 10000000;
-		int min20 = 0,min9 = 0,min6 = 0,min4 = 0;
-		int sum = 1000;
-
-		for(int i=0;i<50;i++){
-			for(int j=0;j<50;j++){
-				for(int k=0;k<50;k++){
-					for(int l=0;l<50;l++){
-						int num = i*20 + j*9 + k*6 + l*4;
-						if(num == piece){
-							int price = i*twen + j*nine + k*six + l*four;
-							int dummy = i + j + k + l;
-							if(min >= price && sum >= dummy){
-								min = price;
-								min20 = i;
-								min9 = j;
-								min6 = k;
-								min4 = l;
-								sum = i + j + k + l;
+		int n = scanner.nextInt();
+		int p20 = scanner.nextInt(),p9 = scanner.nextInt(),
+				p6 = scanner.nextInt(),p4 = scanner.nextInt();
+		int sum = 0;
+		int ansPrice = Integer.MAX_VALUE;
+		int ansNum = Integer.MAX_VALUE;
+		int[] buy = new int[4];
+		for(int i=0;i<=n/20;i++){
+			for(int j=0;j<=(n-i*20)/9;j++){
+				for(int k=0;k<=(n-i*20-j*9)/6;k++){
+					for(int l=0;l<=(n-i*20-j*9-k*6)/4;l++){
+						sum = 20 * i + 9 * j + 6 * k + 4 * l;
+						if(sum == n){
+							int price = p20 * i + p9 * j + p6 * k + p4 * l;
+							int num = i + j + k + l;
+							if(price <= ansPrice && num <= ansNum){
+								ansPrice = price;
+								ansNum = num;
+								buy[0] = i;
+								buy[1] = j;
+								buy[2] = k;
+								buy[3] = l;
 							}
 						}
 					}
 				}
 			}
 		}
-
-		System.out.println(min20 + " " + min9 + " " + min6 + " " + min4);
-
+		for(int i=0;i<4;i++){
+			System.out.print(buy[i]);
+			if(i < 3){
+				System.out.print(" ");
+			}
+		}
+		System.out.println();
 	}
 
 }
